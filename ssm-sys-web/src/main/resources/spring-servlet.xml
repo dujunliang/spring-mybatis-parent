@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+                        http://www.springframework.org/schema/task
+                        http://www.springframework.org/schema/task/spring-task-3.2.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+
+        <!--&lt;!&ndash; 启用spring mvc 注解 &ndash;&gt;-->
+        <context:annotation-config />
+
+
+
+        <!--<aop:aspectj-autoproxy proxy-target-class="true" />-->
+    <!--<aop:config>-->
+        <!--<aop:aspect id="TestAspect" ref="aspectBean">-->
+            <!--&lt;!&ndash;配置com.spring.service包下所有类或接口的所有方法&ndash;&gt;-->
+            <!--<aop:pointcut id="businessService" expression="execution(* com.vss.sys.service.*.*(..))" />-->
+            <!--<aop:before pointcut-ref="businessService" method="doBefore"/>-->
+            <!--<aop:after pointcut-ref="businessService" method="doAfter"/>-->
+            <!--<aop:around pointcut-ref="businessService" method="doAround"/>-->
+            <!--<aop:after-throwing pointcut-ref="businessService" method="doThrowing" throwing="ex"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+    <!--<bean id="aspectBean" class="com.vss.sys.aspect.AnnotationServiceAspect" />-->
+
+        <context:component-scan base-package="com.vss.sys" />
+
+
+        <!-- 配置拦截器 -->
+       <mvc:interceptors>
+            <!-- 多个拦截器，顺序执行 -->
+            <mvc:interceptor>
+                <!-- /** 表示所有的url，包括子url路径 -->
+                <mvc:mapping path="/**"/>
+                <bean class="com.vss.sys.filter.LoginHandlerIntercepter"></bean>
+            </mvc:interceptor>
+            <!-- 配置登陆拦截器 -->
+            <!--<mvc:interceptor>-->
+                <!--<mvc:mapping path="/**"/>-->
+                <!--<bean class="cn.labelnet.ssm.filter.LoginHandlerIntercepter"></bean>-->
+            <!--</mvc:interceptor>-->
+
+    </mvc:interceptors>
+
+
+        <aop:aspectj-autoproxy />
+        <bean id="aspectBean" class="com.vss.sys.aspect.AnnotationServiceAspect" />
+
+
+        <mvc:annotation-driven />
+
+        <!--&lt;!&ndash; annotation的方法映射适配器 &ndash;&gt;-->
+        <!--<bean id="handlerAdapter"-->
+              <!--class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />-->
+                    <!--　　-->
+        <!--&lt;!&ndash; 跳转文件的前后缀 &ndash;&gt;-->
+        <bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix" value="/WEB-INF/jsp/"></property>
+            <property name="suffix" value=".jsp"></property>
+        </bean>
+
+
+    <!--
+ <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+  -->
+    <bean id="exceptionResolver" class="com.vss.sys.exception.ExceptionHandler">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="javax.validation.ConstraintViolationException">error/500</prop>
+                <prop key="com.vss.sys.exception.BaseException">error/500</prop>
+                <prop key="com.vss.sys.exception.SysException">error/500</prop>
+                <prop key="java.lang.exception">error/500</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!--&lt;!&ndash; 静态文件 &ndash;&gt;-->
+        <mvc:resources location="/assets/" mapping="/assets/**"></mvc:resources>
+        <mvc:resources location="/bootstrap/" mapping="/bootstrap/**"></mvc:resources>
+        <mvc:resources location="/plugins/" mapping="/plugins/**"></mvc:resources>
+
+
+</beans>

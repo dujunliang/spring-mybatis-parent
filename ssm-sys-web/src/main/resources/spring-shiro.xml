@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+
+    <!-- 自定义对 shiro的连接约束,结合shiroSecurityFilter实现动态获取资源 -->
+    <bean id="chainDefinitionSectionMetaSource" class="com.vss.sys.filter.ChainDefinitionSectionMetaSource">
+        <!-- 默认的连接配置 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /login/logining.do=anon
+                /assets/**=anon
+                /bootstrap/**=anon
+                /plugins/**=anon
+                /resource/** = anon
+                /jsp/user/** =perms[user:add]
+            </value>
+        </property>
+    </bean>
+    <!-- 将shiro与spring集合 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- shiro的核心安全接口 -->
+        <property name="securityManager" ref="securityManager" />
+        <!-- 要求登录时的链接 -->
+        <property name="loginUrl" value="/login/logining.do"/>
+        <!-- 登陆成功后要跳转的连接 -->
+        <property name="successUrl" value="/jsp/index/index.jsp"/>
+        <!-- 没有权限要跳转的链接-->
+        <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"></property>
+        <!-- shiro连接约束配置,在这里使用自定义的动态获取资源类 -->
+        <property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
+    </bean>
+
+
+    <!-- 配置缓存管理器 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <!-- 指定 ehcache 的配置文件 -->
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+    <!-- 配置进行授权和认证的 Realm -->
+    <bean id="myRealm" class="com.vss.sys.controller.ShiroDbRealm" />
+
+    <!-- 配置 Shiro 的 SecurityManager Bean. -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="realm" ref="myRealm"/>
+        <property name="sessionMode" value="native">
+        </property>
+    </bean>
+    <!-- 配置 Bean 后置处理器: 会自动的调用和 Spring 整合后各个组件的生命周期方法. -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
+
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--<classPathEntry location="E:/.m2/repository/postgresql/postgresql/9.1-901.jdbc4/postgresql-9.1-901.jdbc4.jar" />-->
+    <context id="MySqlTables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.29:3306/jiradb?serverTimezone=UTC"
+                        userId="root" password="du8555149">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.vss.sys.batis.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.vss.sys.batis.mapping" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.vss.sys.batis.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <table tableName="jiraissue"  domainObjectName="JiraIssue" enableCountByExample="false"  enableSelectByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false"  />
+        <!--<table tableName="PERMISSION_INFO"  domainObjectName="PermissInfo" enableCountByExample="false"  enableSelectByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false"  />-->
+        <!--<table tableName="ROLE_INFO"  domainObjectName="RolesInfo" enableCountByExample="false"  enableSelectByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false" />-->
+
+        <!--<table tableName="ROLE_PERMISS_INFO"  domainObjectName="RolePermissInfo" enableCountByExample="false"  enableSelectByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false" />-->
+        <!--<table tableName="USER_ROLE_INFO"  domainObjectName="UserRoleInfo" enableCountByExample="false"  enableSelectByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false" />-->
+
+    </context>
+
+</generatorConfiguration>

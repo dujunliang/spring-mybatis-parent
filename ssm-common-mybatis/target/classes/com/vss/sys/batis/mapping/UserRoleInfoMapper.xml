@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vss.sys.batis.mapper.UserRoleInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.vss.sys.batis.model.UserRoleInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATA" property="createData" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_DATE" property="latestOpDate" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_USER" property="latestOpUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLEID, USERID, IS_VALID, CREATE_USER, CREATE_DATA, LATEST_OP_DATE, LATEST_OP_USER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_role_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user_role_info
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_role_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByUserId" parameterType="java.lang.String" >
+    delete from user_role_info
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.vss.sys.batis.model.UserRoleInfo" >
+    insert into user_role_info (ID, ROLEID, USERID, 
+      IS_VALID, CREATE_USER, CREATE_DATA, 
+      LATEST_OP_DATE, LATEST_OP_USER)
+    values (#{id,jdbcType=INTEGER}, #{roleid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR}, #{createData,jdbcType=VARCHAR}, 
+      #{latestOpDate,jdbcType=VARCHAR}, #{latestOpUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vss.sys.batis.model.UserRoleInfo" >
+    insert into user_role_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createData != null" >
+        CREATE_DATA,
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE,
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createData != null" >
+        #{createData,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vss.sys.batis.model.UserRoleInfo" >
+    update user_role_info
+    <set >
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createData != null" >
+        CREATE_DATA = #{createData,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vss.sys.batis.model.UserRoleInfo" >
+    update user_role_info
+    set ROLEID = #{roleid,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATA = #{createData,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

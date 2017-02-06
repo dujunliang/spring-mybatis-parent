@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/batch
+	   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+        <import resource="data-source-context.xml"/>
+
+        <import resource="bath-quartz.xml"/>
+
+
+        <bean id="testLuncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+         <property name="jobRepository" ref="jobRepo"/>
+        </bean>
+
+        <bean id="paramsBuilder" class="org.springframework.batch.core.JobParametersBuilder"/>
+
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+         <property name="dataSource" ref="dataSource"/>
+        </bean>
+
+        <bean id="jobRepo" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+         <property name="dataSource" ref="dataSource"/>
+         <property name="databaseType" value="oracle"/>
+         <property name="transactionManager" ref="transactionManager"/>
+        </bean>
+
+        <bean id="rowMapper" class="com.vss.sys.batch.MyRowMapper"/>
+
+        <bean id="testReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+         <property name="dataSource" ref="dataSource"/>
+         <property name="rowMapper" ref="rowMapper"/>
+         <property name="sql" value="select emp.EMP_NAME name, emp.CREATED_TIME testDate from AU_EMPLOYEE emp where emp.id = '1099104500000000025'"/>
+        </bean>
+
+        <bean id="testWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+         <property name="dataSource" ref="dataSource"/>
+         <property name="itemSqlParameterSourceProvider" ref="testItemSqlParameterSourceProvider"/>
+         <property name="sql" value="update AU_EMPLOYEE emp set emp.PERSON_NAME = :name where emp.id = '1099104500000000025'"/>
+        </bean>
+
+        <bean id="testItemSqlParameterSourceProvider" class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"/>
+
+        <bean id="testProcessor" class="com.vss.sys.batch.MyProcessor"/>
+
+        <batch:job id="testJob" job-repository="jobRepo" restartable="true">
+         <batch:step id="testStep">
+             <tasklet>
+                 <chunk reader="testReader" processor="testProcessor" writer="testWriter" commit-interval="10000" skip-limit="10000">
+                     <skippable-exception-classes></skippable-exception-classes>
+                 </chunk>
+             </tasklet>
+         </batch:step>
+        </batch:job>
+
+</beans>

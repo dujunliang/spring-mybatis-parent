@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-mybatis-parent.iml" filepath="$PROJECT_DIR$/spring-mybatis-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common/ssm-common.iml" filepath="$PROJECT_DIR$/ssm-common/ssm-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common-batch/ssm-common-batch.iml" filepath="$PROJECT_DIR$/ssm-common-batch/ssm-common-batch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common-mybatis/ssm-common-mybatis.iml" filepath="$PROJECT_DIR$/ssm-common-mybatis/ssm-common-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common-parent/ssm-common-parent.iml" filepath="$PROJECT_DIR$/ssm-common-parent/ssm-common-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common-spring/ssm-common-spring.iml" filepath="$PROJECT_DIR$/ssm-common-spring/ssm-common-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-common-web/ssm-common-web.iml" filepath="$PROJECT_DIR$/ssm-common-web/ssm-common-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-jira-core/ssm-jira-core.iml" filepath="$PROJECT_DIR$/ssm-jira-core/ssm-jira-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-sys-api/ssm-sys-api.iml" filepath="$PROJECT_DIR$/ssm-sys-api/ssm-sys-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-sys-core/ssm-sys-core.iml" filepath="$PROJECT_DIR$/ssm-sys-core/ssm-sys-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-sys-parent/ssm-sys-parent.iml" filepath="$PROJECT_DIR$/ssm-sys-parent/ssm-sys-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-sys-web/ssm-sys-web.iml" filepath="$PROJECT_DIR$/ssm-sys-web/ssm-sys-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-test-generator/ssm-test-generator.iml" filepath="$PROJECT_DIR$/ssm-test-generator/ssm-test-generator.iml" />
+    </modules>
+  </component>
+</project>

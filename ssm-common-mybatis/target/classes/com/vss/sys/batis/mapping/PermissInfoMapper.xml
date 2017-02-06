@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vss.sys.batis.mapper.PermissInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.vss.sys.batis.model.PermissInfo" >
+    <id column="PERMISS_ID" property="permissId" jdbcType="INTEGER" />
+    <result column="PERMISS_NAME" property="permissName" jdbcType="VARCHAR" />
+    <result column="PERMISS_TYPE" property="permissType" jdbcType="VARCHAR" />
+    <result column="PERMISS_VAL" property="permissVal" jdbcType="VARCHAR" />
+    <result column="PERMISS_OWN_ID" property="permissOwnId" jdbcType="VARCHAR" />
+    <result column="PERMISS_SUPER_ID" property="permissSuperId" jdbcType="VARCHAR" />
+    <result column="PERMISS_SUPER_VAL" property="permissSuperVal" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_DATE" property="latestOpDate" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_USER" property="latestOpUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PERMISS_ID, PERMISS_NAME, PERMISS_TYPE, PERMISS_VAL,PERMISS_OWN_ID, PERMISS_SUPER_ID, PERMISS_SUPER_VAL,
+    IS_VALID, CREATE_DATE, CREATE_USER, LATEST_OP_DATE, LATEST_OP_USER
+  </sql>
+
+  <select id="findCountPermissInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="java.lang.Integer">
+    select
+    COUNT(*) AS "count"
+    from permission_info where 1=1
+    <if test="condition !=null">
+      <if test="condition.permissName !=null and condition.permissName != ''">
+        and PERMISS_NAME like
+        CONCAT('%',#{condition.permissName},'%')
+      </if>
+      <if test="condition.permissType !=null and condition.permissType != ''">
+        and PERMISS_TYPE like
+        CONCAT('%',#{condition.permissType},'%')
+      </if>
+      <if test="condition.isValid !=null and condition.isValid != ''">
+        and IS_VALID = #{condition.isValid}
+      </if>
+    </if>
+  </select>
+
+  <select id="selectByPrimaryOwnPermiss" resultMap="BaseResultMap">
+    select
+    distinct permiss.PERMISS_ID permissId,
+    permiss.PERMISS_OWN_ID permissOwnId,
+    permiss.PERMISS_SUPER_ID permissSuperId,
+    permiss.PERMISS_VAL permissVal,
+    permiss.PERMISS_NAME permissName,
+    permiss.IS_VALID isValid,
+    permiss.PERMISS_TYPE permissType
+
+    from role_permiss_info role left join permission_info permiss on role.PERMISS_ID=permiss.PERMISS_OWN_ID
+    WHERE permiss.IS_VALID = 'A' and permiss.PERMISS_TYPE = 'MENU' AND role.ROLEID in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="findPermissInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="Map">
+    select
+    PERMISS_ID AS "permissId",
+    PERMISS_NAME AS "permissName",
+    PERMISS_TYPE AS "permissType",
+    PERMISS_VAL AS "permissVal",
+    PERMISS_OWN_ID AS "permissOwnId",
+    PERMISS_SUPER_ID AS "permissSuperId",
+    PERMISS_SUPER_VAL AS "permissSuperVal",
+    IS_VALID AS "isValid",
+    CREATE_USER AS "createUser",
+    CREATE_DATE AS "createData",
+    LATEST_OP_DATE AS "latestOpDate",
+    LATEST_OP_USER AS "latestOpUser"
+    from permission_info
+    <!--where 1=1-->
+    <!--<if test="condition !=null">-->
+      <!--<if test="condition.permissName !=null and condition.permissName != ''">-->
+        <!--and PERMISS_NAME like-->
+        <!--CONCAT('%',#{condition.permissName},'%')-->
+      <!--</if>-->
+      <!--<if test="condition.permissType !=null and condition.permissType != ''">-->
+        <!--and PERMISS_TYPE like-->
+        <!--CONCAT('%',#{condition.permissType},'%')-->
+      <!--</if>-->
+      <!--<if test="condition.isValid !=null and condition.isValid != ''">-->
+        <!--and IS_VALID = #{condition.isValid}-->
+      <!--</if>-->
+    <!--</if>-->
+    <!--order by PERMISS_SUPER_VAL ASC limit ${start},${length}-->
+  </select>
+
+  <select id="select2PermissInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="Map">
+    select
+      PERMISS_NAME AS "text",
+      PERMISS_OWN_ID AS "id"
+    from permission_info where 1=1
+    <if test="condition !=null">
+      <if test="condition.keyword !=null and condition.keyword != ''">
+        and PERMISS_NAME like #{condition.keyword}
+      </if>
+    </if>
+    order by PERMISS_OWN_ID ASC limit ${start},${length}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from permission_info
+    where PERMISS_ID = #{permissId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from permission_info
+    where PERMISS_ID = #{permissId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vss.sys.batis.model.PermissInfo" >
+    insert into permission_info (PERMISS_ID, PERMISS_NAME, PERMISS_TYPE, 
+      PERMISS_VAL,PERMISS_OWN_ID,PERMISS_SUPER_ID, PERMISS_SUPER_VAL,
+      IS_VALID, CREATE_DATE, CREATE_USER, 
+      LATEST_OP_DATE, LATEST_OP_USER)
+    values (#{permissId,jdbcType=INTEGER}, #{permissName,jdbcType=VARCHAR}, #{permissType,jdbcType=VARCHAR}, 
+      #{permissVal,jdbcType=VARCHAR}, #{permissOwnId,jdbcType=VARCHAR}, #{permissSuperId,jdbcType=VARCHAR}, #{permissSuperVal,jdbcType=VARCHAR},
+      #{isValid,jdbcType=CHAR}, #{createDate,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{latestOpDate,jdbcType=VARCHAR}, #{latestOpUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vss.sys.batis.model.PermissInfo" >
+    insert into permission_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="permissId != null" >
+        PERMISS_ID,
+      </if>
+      <if test="permissName != null" >
+        PERMISS_NAME,
+      </if>
+      <if test="permissType != null" >
+        PERMISS_TYPE,
+      </if>
+      <if test="permissVal != null" >
+        PERMISS_VAL,
+      </if>
+      <if test="permissOwnId != null" >
+        PERMISS_OWN_ID,
+      </if>
+      <if test="permissSuperId != null" >
+        PERMISS_SUPER_ID,
+      </if>
+      <if test="permissSuperVal != null" >
+        PERMISS_SUPER_VAL,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE,
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="permissId != null" >
+        #{permissId,jdbcType=INTEGER},
+      </if>
+      <if test="permissName != null" >
+        #{permissName,jdbcType=VARCHAR},
+      </if>
+      <if test="permissType != null" >
+        #{permissType,jdbcType=VARCHAR},
+      </if>
+      <if test="permissVal != null" >
+        #{permissVal,jdbcType=VARCHAR},
+      </if>
+      <if test="permissOwnId != null" >
+        #{permissOwnId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissSuperId != null" >
+        #{permissSuperId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissSuperVal != null" >
+        #{permissSuperVal,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vss.sys.batis.model.PermissInfo" >
+    update permission_info
+    <set >
+      <if test="permissName != null" >
+        PERMISS_NAME = #{permissName,jdbcType=VARCHAR},
+      </if>
+      <if test="permissType != null" >
+        PERMISS_TYPE = #{permissType,jdbcType=VARCHAR},
+      </if>
+      <if test="permissVal != null" >
+        PERMISS_VAL = #{permissVal,jdbcType=VARCHAR},
+      </if>
+      <if test="permissOwnId != null" >
+        PERMISS_OWN_ID = #{permissOwnId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissSuperId != null" >
+        PERMISS_SUPER_ID = #{permissSuperId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissSuperVal != null" >
+        PERMISS_SUPER_VAL = #{permissSuperVal,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PERMISS_ID = #{permissId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vss.sys.batis.model.PermissInfo" >
+    update permission_info
+    set PERMISS_NAME = #{permissName,jdbcType=VARCHAR},
+      PERMISS_TYPE = #{permissType,jdbcType=VARCHAR},
+      PERMISS_VAL = #{permissVal,jdbcType=VARCHAR},
+      PERMISS_OWN_ID = #{permissOwnId,jdbcType=VARCHAR},
+      PERMISS_SUPER_ID = #{permissSuperId,jdbcType=VARCHAR},
+      PERMISS_SUPER_VAL = #{permissSuperVal,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR}
+    where PERMISS_ID = #{permissId,jdbcType=INTEGER}
+  </update>
+</mapper>

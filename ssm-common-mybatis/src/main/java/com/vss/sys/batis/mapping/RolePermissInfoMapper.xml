@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vss.sys.batis.mapper.RolePermissInfoMapper">
+    <resultMap id="BaseResultMap" type="com.vss.sys.batis.model.RolePermissInfo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="ROLEID" property="roleid" jdbcType="VARCHAR"/>
+        <result column="PERMISS_ID" property="permissId" jdbcType="VARCHAR"/>
+        <result column="IS_VALID" property="isValid" jdbcType="CHAR"/>
+        <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATA" property="createData" jdbcType="VARCHAR"/>
+        <result column="LATEST_OP_DATE" property="latestOpDate" jdbcType="VARCHAR"/>
+        <result column="LATEST_OP_USER" property="latestOpUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ROLEID, PERMISS_ID, IS_VALID, CREATE_USER, CREATE_DATA, LATEST_OP_DATE, LATEST_OP_USER
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from role_permiss_info
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPrimaryRoleid" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from role_permiss_info
+        where ROLEID = #{roleid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByPrimaryRoleidList" resultMap="BaseResultMap">
+    select
+    distinct permiss.PERMISS_VAL permissId
+    from role_permiss_info role left join permission_info permiss on role.PERMISS_ID=permiss.PERMISS_OWN_ID
+    WHERE permiss.IS_VALID = 'A' AND role.ROLEID in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role_permiss_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByPrimaryRolesId" parameterType="java.lang.String">
+    delete from role_permiss_info
+    where ROLEID = #{roleid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.vss.sys.batis.model.RolePermissInfo">
+    insert into role_permiss_info (ID, ROLEID, PERMISS_ID, 
+      IS_VALID, CREATE_USER, CREATE_DATA, 
+      LATEST_OP_DATE, LATEST_OP_USER)
+    values (#{id,jdbcType=INTEGER}, #{roleid,jdbcType=VARCHAR}, #{permissId,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR}, #{createData,jdbcType=VARCHAR}, 
+      #{latestOpDate,jdbcType=VARCHAR}, #{latestOpUser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.vss.sys.batis.model.RolePermissInfo">
+        insert into role_permiss_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="roleid != null">
+                ROLEID,
+            </if>
+            <if test="permissId != null">
+                PERMISS_ID,
+            </if>
+            <if test="isValid != null">
+                IS_VALID,
+            </if>
+            <if test="createUser != null">
+                CREATE_USER,
+            </if>
+            <if test="createData != null">
+                CREATE_DATA,
+            </if>
+            <if test="latestOpDate != null">
+                LATEST_OP_DATE,
+            </if>
+            <if test="latestOpUser != null">
+                LATEST_OP_USER,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="roleid != null">
+                #{roleid,jdbcType=VARCHAR},
+            </if>
+            <if test="permissId != null">
+                #{permissId,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                #{isValid,jdbcType=CHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createData != null">
+                #{createData,jdbcType=VARCHAR},
+            </if>
+            <if test="latestOpDate != null">
+                #{latestOpDate,jdbcType=VARCHAR},
+            </if>
+            <if test="latestOpUser != null">
+                #{latestOpUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.vss.sys.batis.model.RolePermissInfo">
+        update role_permiss_info
+        <set>
+            <if test="roleid != null">
+                ROLEID = #{roleid,jdbcType=VARCHAR},
+            </if>
+            <if test="permissId != null">
+                PERMISS_ID = #{permissId,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                IS_VALID = #{isValid,jdbcType=CHAR},
+            </if>
+            <if test="createUser != null">
+                CREATE_USER = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createData != null">
+                CREATE_DATA = #{createData,jdbcType=VARCHAR},
+            </if>
+            <if test="latestOpDate != null">
+                LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+            </if>
+            <if test="latestOpUser != null">
+                LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.vss.sys.batis.model.RolePermissInfo">
+    update role_permiss_info
+    set ROLEID = #{roleid,jdbcType=VARCHAR},
+      PERMISS_ID = #{permissId,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATA = #{createData,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

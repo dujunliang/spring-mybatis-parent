@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+       <!-- 调度器 -->
+       <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+              <!-- 触发器列表 -->
+              <property name="triggers">
+                     <list>
+                            <ref bean="connTrigger"/>
+                     </list>
+              </property>
+       </bean>
+
+       <!-- 触发器 -->
+       <bean id="connTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+              <!-- 处理类中转工厂 -->
+              <property name="jobDetail" ref="myJobDetail"/>
+              <property name="cronExpression" value="0 */1 * * * ?"/>
+       </bean>
+
+       <!-- 处理类中转工厂  -->
+       <bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+              <!-- 处理类 -->
+              <property name="targetObject" ref="myJob"/>
+              <property name="targetMethod" value="excute"/>
+              <property name="concurrent" value="false"/>
+       </bean>
+
+       <bean id="myJob" class="com.vss.sys.batch.MyFirstJob"/>
+
+</beans>

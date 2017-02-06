@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+           xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+           xmlns:aop="http://www.springframework.org/schema/aop"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    ">
+
+    <!-- 引入属性文件 -->
+    <!--<context:property-placeholder location="classpath:mybatis.properties" />-->
+
+    <!-- 自动扫描(自动注入) -->
+    <!--<context:component-scan base-package="com.vss.sys" />-->
+
+    <!-- 配置数据源 -->
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">-->
+    <!--<property name="driverClassName" value="${db.driver}" />-->
+    <!--<property name="url" value="${db.url}" />-->
+    <!--<property name="username" value="${bd.username}" />-->
+    <!--<property name="password" value="${db.password}" />-->
+    <!--<property name="maxActive" value="100"></property>-->
+    <!--<property name="maxIdle" value="30"></property>-->
+    <!--<property name="maxWait" value="500"></property>-->
+    <!--<property name="defaultAutoCommit" value="true"></property>-->
+    <!--</bean>-->
+    <import resource="data-source-context.xml" />
+
+    <!-- myBatis文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="mapperLocations" value="classpath:com/vss/sys/batis/mapping/*.xml" />
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.vss.sys.batis" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 注解方式配置事物 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!-- 拦截器方式配置事物 -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager"/>
+
+</beans>

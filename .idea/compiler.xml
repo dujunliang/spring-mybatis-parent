@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-sys-api" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-sys-api" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-common-spring" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-common-spring" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-common" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-sys-web" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-sys-web" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-common-mybatis" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-common-mybatis" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-common-batch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-common-batch" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-sys-core" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-sys-core" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-test-generator" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-test-generator" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-common-web" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-common-web" />
+      </profile>
+      <profile default="false" name="Annotation profile for TEST" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Annotation profile for ssm-jira-core" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ssm-jira-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="spring-batch-mybatis-parent" target="1.8" />
+      <module name="spring-mybatis-parent" target="1.8" />
+      <module name="ssm-common" target="1.8" />
+      <module name="ssm-common-batch" target="1.8" />
+      <module name="ssm-common-mybatis" target="1.8" />
+      <module name="ssm-common-parent" target="1.8" />
+      <module name="ssm-common-spring" target="1.8" />
+      <module name="ssm-common-web" target="1.8" />
+      <module name="ssm-jira-core" target="1.8" />
+      <module name="ssm-sys-api" target="1.8" />
+      <module name="ssm-sys-core" target="1.8" />
+      <module name="ssm-sys-parent" target="1.8" />
+      <module name="ssm-sys-web" target="1.8" />
+      <module name="ssm-test-generator" target="1.8" />
+      <module name="TEST" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

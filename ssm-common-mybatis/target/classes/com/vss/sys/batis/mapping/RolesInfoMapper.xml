@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vss.sys.batis.mapper.RolesInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.vss.sys.batis.model.RolesInfo" >
+    <id column="ROLEID" property="roleid" jdbcType="INTEGER" />
+    <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATA" property="createData" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_DATE" property="latestOpDate" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_USER" property="latestOpUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROLEID, ROLENAME, IS_VALID, CREATE_USER, CREATE_DATA, LATEST_OP_DATE, LATEST_OP_USER
+  </sql>
+
+  <select id="findCountRoleInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="java.lang.Integer">
+    select
+    COUNT(*) AS "count"
+    from role_info where 1=1
+    <if test="condition !=null">
+      <if test="condition.rolename !=null and condition.rolename != ''">
+        and ROLENAME like
+        CONCAT('%',#{condition.rolename},'%')
+      </if>
+      <if test="condition.isValid !=null and condition.isValid != ''">
+        and IS_VALID = #{condition.isValid}
+      </if>
+    </if>
+  </select>
+  <select id="select2RoleInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="Map">
+    select
+    ROLENAME AS "text",
+    ROLEID AS "id"
+    from role_info where 1=1
+    <if test="condition !=null">
+      <if test="condition.keyword !=null and condition.keyword != ''">
+        and ROLENAME like #{condition.keyword}
+      </if>
+    </if>
+    order by ROLEID ASC limit ${start},${length}
+  </select>
+
+  <select id="getRoleInfoList" parameterType="java.lang.Integer" resultType="Map">
+    select
+    ROLENAME AS "text",
+    ROLEID AS "id"
+    from role_info
+  </select>
+
+  <select id="findRoleInfo" parameterType="com.vss.sys.datatable.PageRequest" resultType="Map">
+    select
+    ROLEID AS "roleid",
+    ROLENAME AS "rolename",
+    IS_VALID AS "isValid",
+    CREATE_USER AS "createUser",
+    CREATE_DATA AS "createData",
+    LATEST_OP_DATE AS "latestOpDate",
+    LATEST_OP_USER AS "latestOpUser"
+    from role_info where 1=1
+    <if test="condition !=null">
+      <if test="condition.rolename !=null and condition.rolename != ''">
+        and ROLENAME like
+        CONCAT('%',#{condition.rolename},'%')
+      </if>
+      <if test="condition.isValid !=null and condition.isValid != ''">
+        and IS_VALID = #{condition.isValid}
+      </if>
+    </if>
+    order by roleid limit ${start},${length}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_info
+    where ROLEID = #{roleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_info
+    where ROLEID = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vss.sys.batis.model.RolesInfo" >
+    insert into role_info (ROLEID, ROLENAME, IS_VALID, 
+      CREATE_USER, CREATE_DATA, LATEST_OP_DATE, 
+      LATEST_OP_USER)
+    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createData,jdbcType=VARCHAR}, #{latestOpDate,jdbcType=VARCHAR}, 
+      #{latestOpUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vss.sys.batis.model.RolesInfo" >
+    insert into role_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="rolename != null" >
+        ROLENAME,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createData != null" >
+        CREATE_DATA,
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE,
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createData != null" >
+        #{createData,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vss.sys.batis.model.RolesInfo" >
+    update role_info
+    <set >
+      <if test="rolename != null" >
+        ROLENAME = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createData != null" >
+        CREATE_DATA = #{createData,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null" >
+        LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null" >
+        LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLEID = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vss.sys.batis.model.RolesInfo" >
+    update role_info
+    set ROLENAME = #{rolename,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATA = #{createData,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR}
+    where ROLEID = #{roleid,jdbcType=INTEGER}
+  </update>
+</mapper>
