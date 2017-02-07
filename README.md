@@ -1,0 +1,2 @@
+# spring-mybatis-parent
+spring
